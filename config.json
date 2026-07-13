@@ -1,0 +1,68 @@
+{
+  "project": {
+    "name": "PFP Generator",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "input_root": "input",
+    "output_root": "output",
+    "logs_root": "logs"
+  },
+  "input": {
+    "dir": "input",
+    "csv_pattern": "*.csv",
+    "pdf_pattern": "*.pdf",
+    "excel_pattern": "*.xlsx"
+  },
+  "output": {
+    "sheet_name": "DADOS_FUROS",
+    "file_suffix": "_PREV.xlsx",
+    "column_width": 15,
+    "float_precision": 1,
+    "column_precisions": {
+      "x": 4,
+      "y": 4,
+      "DetonatingTime": 0
+    }
+  },
+  "id_rules": {
+    "pdf_regex": "\\b(?:PP|PC)(\\d{6,7})\\b",
+    "filename_regex": "\\b(?:PP|PC)(\\d+)\\b",
+    "interactive_fallback": true
+  },
+  "plan_type_labels": {
+    "PP": "Production",
+    "PC": "Presplit"
+  },
+  "required_input_columns": [
+    "Number",
+    "X",
+    "Y",
+    "Z",
+    "Z_Toe",
+    "Length",
+    "Azimuth",
+    "Angle",
+    "DesignCharge",
+    "Stemming",
+    "Subdrilling",
+    "DetonatingTime"
+  ],
+  "output_columns": [
+    {"name": "Plano", "source": "plan_id"},
+    {"name": "Tipo", "source": "plan_type_label"},
+    {"name": "id", "source": "Number"},
+    {"name": "y", "source": "Y"},
+    {"name": "x", "source": "X"},
+    {"name": "z (crest)", "source": "Z"},
+    {"name": "z (toe)", "source": "Z_Toe"},
+    {"name": "profundidade prevista", "source": "Length"},
+    {"name": "azimute", "source": "Azimuth"},
+    {"name": "inclinacao", "source": "Angle"},
+    {"name": "cargas previstas", "source": "DesignCharge"},
+    {"name": "tampao previsto", "source": "Stemming"},
+    {"name": "subperfuracao", "source": "Subdrilling"},
+    {"name": "diametro", "source": "Diameter"},
+    {"name": "DetonatingTime", "source": "DetonatingTime"}
+  ]
+}

@@ -1,0 +1,110 @@
+Analise toda a documentação disponível na pasta, com prioridade para plano de perfuração, tabelas, relatórios, imagens, PDFs e qualquer arquivo que contenha dados de furos, parâmetros operacionais e informações do plano.
+
+Objetivo:
+Gerar um arquivo Excel com 2 abas, estruturado exatamente como descrito abaixo, preenchendo os dados extraídos da documentação, sem inventar valores e sem incluir os campos Data e Hora.
+
+ABA 1
+Nome sugerido: DADOS_FUROS
+
+Crie a planilha principal com estas colunas, nesta ordem exata:
+
+"id";"y";"x";"z";"profundidade prevista";"azimute";"inclinação";"cargas previstas";"tampão previsto";"subperfuração"
+
+Regras de preenchimento da ABA 1:
+1. Cada linha deve representar 1 furo.
+2. O campo "id" deve ser o identificador exato do furo no plano.
+3. Os campos "y", "x" e "z" devem ser extraídos exatamente das coordenadas do plano de perfuração.
+4. O campo "profundidade prevista" deve ser a profundidade planejada do furo.
+5. O campo "azimute" deve ser o azimute previsto do furo.
+6. O campo "inclinação" deve ser a inclinação prevista do furo.
+7. O campo "cargas previstas" deve representar a carga explosiva prevista por furo. Se houver mais de uma carga por coluna ou decks, consolidar o valor total previsto por furo em um único número.
+8. O campo "tampão previsto" deve ser o tampão planejado do furo.
+9. O campo "subperfuração" deve ser a subperfuração planejada do furo.
+10. Não incluir colunas adicionais.
+11. Não incluir Data.
+12. Não incluir Hora.
+
+Formatação obrigatória da ABA 1:
+1. O separador decimal deve ser vírgula.
+2. Os campos "profundidade prevista", "azimute", "inclinação", "cargas previstas", "tampão previsto" e "subperfuração" devem ter exatamente 1 casa decimal.
+3. Os campos "y", "x" e "z" devem manter a precisão original identificada na documentação, usando vírgula como separador decimal.
+4. Manter valores numéricos como números no Excel, não como texto, sempre que possível.
+
+Critérios de extração da ABA 1:
+1. Priorize sempre o plano de perfuração oficial.
+2. Se houver divergência entre arquivos, use a fonte mais direta, técnica e específica do plano.
+3. Se um valor não estiver disponível de forma confiável, deixe a célula vazia. Não invente e não estime.
+4. Preserve exatamente os IDs e coordenadas encontrados.
+5. Não altere nomenclaturas dos furos.
+
+ABA 2
+Nome obrigatório: PROMPT GPT
+
+Crie uma segunda aba com exatamente estas colunas:
+
+"Parâmetro";"Valor";"Unidade de medida"
+
+Essa aba deve resumir os parâmetros globais identificados no plano e utilizados para interpretar ou montar a planilha principal.
+
+Preencha a ABA 2 com os parâmetros abaixo, sempre que estiverem disponíveis na documentação:
+1. Plano
+2. Banco / Área
+3. Malha Mista
+4. Afastamento
+5. Espaçamento
+6. Diâmetro
+7. Material 1
+8. Material 2
+9. Material 3
+10. Tampão
+11. Inclinação
+12. Subperfuração
+13. Dens. Rocha
+14. Azimute padrão, se existir no plano
+15. Observações de extração, somente se necessário para registrar ausência ou conflito de dados
+
+Regras específicas da ABA 2:
+1. Não incluir Data.
+2. Não incluir Hora.
+3. "Malha Mista" deve retornar exatamente o que está descrito no plano de perfuração.
+4. "Banco / Área" deve seguir a lógica da cota de altura mais expressiva dos furos. Exemplo: se a cota representativa for 283, considerar 280-270. Se o plano já informar explicitamente algo como 290-280, usar exatamente o que estiver descrito.
+5. "Material 1", "Material 2" e "Material 3" devem ser extraídos diretamente do plano de perfuração.
+6. Para parâmetros textuais ausentes no plano, usar "-" quando isso refletir o padrão do documento.
+7. Para parâmetros numéricos ausentes, deixar vazio.
+8. As unidades devem ser informadas corretamente, por exemplo:
+   a. y, x, z = m
+   b. profundidade prevista = m
+   c. azimute = °
+   d. inclinação = °
+   e. cargas previstas = kg
+   f. tampão previsto = m
+   g. subperfuração = m
+   h. afastamento = m
+   i. espaçamento = m
+   j. diâmetro = pol
+   k. dens. rocha = t/m³ ou a unidade mostrada no documento
+9. Quando o parâmetro for textual e não possuir unidade, deixar a unidade vazia ou usar "-" de forma consistente.
+
+Regras gerais de qualidade:
+1. Não inventar informações.
+2. Não preencher com suposições.
+3. Não alterar a estrutura solicitada.
+4. Usar nomes de colunas exatamente como informados.
+5. Garantir consistência entre a ABA 1 e a ABA 2.
+6. O arquivo final deve sair pronto para uso operacional.
+7. Antes de concluir, revisar se:
+   a. há apenas as 2 abas solicitadas
+   b. os nomes das abas estão corretos
+   c. os campos numéricos usam vírgula como separador decimal
+   d. os campos com 1 casa decimal estão corretamente formatados
+   e. Data e Hora não aparecem em nenhuma aba
+   f. os materiais foram retirados do plano
+   g. o Banco / Área foi interpretado corretamente
+   h. Malha Mista foi transcrita exatamente do plano
+
+Saída final esperada:
+Um arquivo Excel com:
+1. ABA 1: DADOS_FUROS, contendo a tabela por furo
+2. ABA 2: PROMPT GPT, contendo o quadro de parâmetros com colunas "Parâmetro", "Valor" e "Unidade de medida"
+
+Se houver conflito entre documentos, registrar isso apenas na linha "Observações de extração" da aba PROMPT GPT, sem alterar a estrutura principal.

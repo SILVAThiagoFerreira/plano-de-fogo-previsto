@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Gerador online de Plano de Fogo Previsto em Excel." />
+    <title>PLANO DE FOGO PREVISTO · OpenBlast</title>
+    <link rel="stylesheet" href="styles.css?v=1" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="OpenBlast - início"><span class="brand-mark">◉</span><span>Open<span>Blast</span></span></a>
+      <div class="topbar-title">Plano de Fogo Previsto</div>
+      <div class="topbar-status"><i></i> Processamento local</div>
+    </header>
+
+    <main class="shell">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">ONLINE · PFP</p>
+          <h1>Gerar Plano de Fogo<br /><em>Previsto</em> · .XLSX</h1>
+          <p class="lede">Converta o conjunto de perfuração em um Excel padronizado, diretamente no navegador.</p>
+        </div>
+        <div class="privacy-note"><span class="lock">⌁</span><strong>Seus arquivos ficam no seu dispositivo.</strong><br />Nenhum dado é enviado para um servidor.</div>
+      </section>
+
+      <section class="workspace-card" aria-labelledby="upload-title">
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-describedby="upload-hint">
+          <input id="file-input" type="file" multiple accept=".csv,.xlsx,.xls,.pdf,.txt" hidden />
+          <div class="upload-icon">↑</div>
+          <h2 id="upload-title">Anexe os arquivos de entrada</h2>
+          <p id="upload-hint">Arraste aqui ou clique para selecionar · CSV, XLSX, XLS, PDF e TXT</p>
+        </div>
+        <div id="file-list" class="file-list" aria-live="polite"><span class="empty-files">Nenhum arquivo selecionado</span></div>
+        <div class="progress-panel" aria-live="polite">
+          <div class="progress-copy"><span id="progress-message">Aguardando arquivos.</span><span id="progress-value">0%</span></div>
+          <div class="progress-track"><div id="progress-bar"></div></div>
+        </div>
+        <button id="generate-button" class="primary-button" disabled>Validar e gerar Excel <span>→</span></button>
+        <div id="error-box" class="error-box" role="alert" hidden></div>
+      </section>
+
+      <section id="result-card" class="result-card" hidden>
+        <div class="result-heading"><div><p class="eyebrow">EXPORTAÇÃO CONCLUÍDA</p><h2>Plano pronto para baixar</h2></div><span class="check">✓</span></div>
+        <div class="metrics">
+          <div><span>Plano</span><strong id="metric-plan">—</strong></div>
+          <div><span>Tipo</span><strong id="metric-type">—</strong></div>
+          <div><span>Total de furos</span><strong id="metric-holes">—</strong></div>
+          <div><span>Carga prevista</span><strong id="metric-charge">—</strong></div>
+        </div>
+        <div class="result-actions"><button id="download-button" class="download-button">Baixar plano previsto (.xlsx) <span>→</span></button><span id="output-name" class="output-name"></span></div>
+      </section>
+
+      <section class="process-grid" aria-label="Como funciona">
+        <article><span class="step">01</span><h3>Arquivos necessários</h3><p>Um CSV de perfuração e o XLSX auxiliar com os diâmetros. PDF e TXT podem informar o ID do plano.</p></article>
+        <article><span class="step">02</span><h3>Validação automática</h3><p>Colunas, plano, tipo, números e estrutura de saída são conferidos antes da exportação.</p></article>
+        <article><span class="step">03</span><h3>Excel rastreável</h3><p>O arquivo mantém a aba <code>DADOS_FUROS</code>, a ordem das colunas e o padrão numérico do projeto.</p></article>
+      </section>
+    </main>
+
+    <footer><span>OpenBlast · PLANO DE FOGO PREVISTO</span><span>v2.0 · execução local</span></footer>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+    <script src="app.js?v=1" type="module"></script>
+  </body>
+</html>
