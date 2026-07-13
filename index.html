@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Gerador online de Plano de Fogo Previsto em Excel." />
-    <title>PLANO DE FOGO PREVISTO · OpenBlast</title>
+    <title>PLANO DE FOGO PREVISTO</title>
+    <link rel="icon" type="image/png" href="assets/openblast-logo.png" />
     <link rel="stylesheet" href="styles.css?v=1" />
+    <link rel="stylesheet" href="ui-overrides.css?v=1" />
   </head>
   <body>
     <header class="topbar">
@@ -17,11 +19,9 @@
     <main class="shell">
       <section class="intro">
         <div>
-          <p class="eyebrow">ONLINE · PFP</p>
-          <h1>Gerar Plano de Fogo<br /><em>Previsto</em> · .XLSX</h1>
-          <p class="lede">Converta o conjunto de perfuração em um Excel padronizado, diretamente no navegador.</p>
+          <p class="eyebrow">ONLINE</p>
+          <h1>Gerar Plano de Fogo <em>Previsto</em> · .XLSX</h1>
         </div>
-        <div class="privacy-note"><span class="lock">⌁</span><strong>Seus arquivos ficam no seu dispositivo.</strong><br />Nenhum dado é enviado para um servidor.</div>
       </section>
 
       <section class="workspace-card" aria-labelledby="upload-title">
@@ -32,7 +32,7 @@
           <p id="upload-hint">Arraste aqui ou clique para selecionar · CSV, XLSX, XLS, PDF e TXT</p>
         </div>
         <div id="file-list" class="file-list" aria-live="polite"><span class="empty-files">Nenhum arquivo selecionado</span></div>
-        <div class="progress-panel" aria-live="polite">
+        <div id="progress-panel" class="progress-panel" aria-live="polite" hidden>
           <div class="progress-copy"><span id="progress-message">Aguardando arquivos.</span><span id="progress-value">0%</span></div>
           <div class="progress-track"><div id="progress-bar"></div></div>
         </div>
