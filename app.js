@@ -3,7 +3,7 @@ import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
 const REQUIRED = ['Number','X','Y','Z','Z_Toe','Length','Azimuth','Angle','DesignCharge','Stemming','Subdrilling','DetonatingTime'];
 const OUTPUT = [['Plano','plan_id'],['Tipo','plan_type_label'],['id','Number'],['y','Y'],['x','X'],['z (crest)','Z'],['z (toe)','Z_Toe'],['profundidade prevista','Length'],['azimute','Azimuth'],['inclinacao','Angle'],['cargas previstas','DesignCharge'],['tampao previsto','Stemming'],['subperfuracao','Subdrilling'],['diametro','Diameter'],['DetonatingTime','DetonatingTime']];
-const state = { files: [], output: null };
+const state = { files: [], output: null, planType: null };
 const $ = id => document.getElementById(id);
 const dropzone = $('dropzone'), input = $('file-input'), fileList = $('file-list'), generate = $('generate-button');
 
@@ -39,5 +39,40 @@ function applyNumberFormats(sheet, headers, rowCount) { headers.forEach((header,
 function showResult(rows, planId, planType) { const totalCharge = rows.reduce((sum, row) => sum + Number(row['cargas previstas'] || 0), 0); $('metric-plan').textContent = planId; $('metric-type').textContent = planType === 'PC' ? 'Presplit' : 'Production'; $('metric-holes').textContent = rows.length.toLocaleString('pt-BR'); $('metric-charge').textContent = `${totalCharge.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kg`; $('output-name').textContent = state.output.name; $('result-card').hidden = false; }
 generate.addEventListener('click', async () => { clearError(); generate.disabled = true; try { setProgress('Lendo o CSV de perfuração…', 20); const csv = state.files.find(f => ext(f) === 'csv'); const rows = await parseCsv(csv); validateRows(rows); setProgress('Lendo o XLSX auxiliar…', 45); const xlsx = state.files.find(f => ['xlsx','xls'].includes(ext(f))); if (!xlsx) throw new Error('XLSX auxiliar ausente: ele é necessário para extrair Diameter.'); const workbook = await parseWorkbook(xlsx); const planId = await resolveId(state.files, workbook); const planType = detectType(state.files, rows); setProgress('Montando DADOS_FUROS e validando saída…', 75); const outputRows = formatOutput(buildOutput(rows, workbook.map, planId, planType)); const headers = OUTPUT.map(([name]) => name); const sheet = XLSX.utils.json_to_sheet(outputRows, { header: headers }); sheet['!cols'] = headers.map(() => ({ wch: 15 })); applyNumberFormats(sheet, headers, outputRows.length); const outBook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(outBook, sheet, 'DADOS_FUROS'); const bytes = XLSX.write(outBook, { bookType: 'xlsx', type: 'array', compression: true }); state.output = { name: `${planType}${planId}_PREV.xlsx`, bytes }; setProgress('Concluído. O Excel está pronto para baixar.', 100); showResult(outputRows, planId, planType); } catch (error) { fail(error.message || String(error)); } finally { generate.disabled = false; } });
 $('download-button').addEventListener('click', () => { if (!state.output) return; const blob = new Blob([state.output.bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = state.output.name; link.click(); URL.revokeObjectURL(link.href); });
+function validateBundleSelection() {
+  const allowed = new Set(['csv', 'xlsx', 'xls', 'pdf', 'txt']);
+  const unsupported = state.files.filter(file => !allowed.has(ext(file)));
+  if (unsupported.length) throw new Error(`Formato não suportado: ${unsupported.map(file => file.name).join(', ')}.`);
+  const csvFiles = state.files.filter(file => ext(file) === 'csv');
+  if (csvFiles.length !== 1) throw new Error(csvFiles.length ? 'Selecione apenas um CSV de perfuração.' : 'Anexe um CSV de perfuração para continuar.');
+  const workbookFiles = state.files.filter(file => ['xlsx', 'xls'].includes(ext(file)));
+  if (workbookFiles.length !== 1) throw new Error(workbookFiles.length ? 'Selecione apenas um XLSX auxiliar.' : 'Anexe um XLSX auxiliar com ID e Diameter.');
+}
+function typeFromText(text) { const match = String(text ?? '').match(/\b(PP|PC)\s*(?=0*\d{6,7}\b)/i); return match ? match[1].toUpperCase() : null; }
+async function resolveIdStrict(files, workbook) {
+  const candidates = [], types = [];
+  for (const file of files) {
+    const nameId = extractId(file.name); if (nameId) candidates.push(nameId);
+    const nameType = typeFromText(file.name); if (nameType) types.push(nameType);
+    if (ext(file) === 'pdf') { const text = await readPdfText(file); const pdfId = extractId(text); if (pdfId) candidates.push(pdfId); const pdfType = typeFromText(text); if (pdfType) types.push(pdfType); }
+    if (ext(file) === 'txt') { const text = await readText(file); const txtId = extractId(text); if (txtId) candidates.push(txtId); const txtType = typeFromText(text); if (txtType) types.push(txtType); }
+  }
+  if (workbook.foundId) candidates.push(workbook.foundId);
+  const uniqueIds = [...new Set(candidates)], uniqueTypes = [...new Set(types)];
+  if (!uniqueIds.length) throw new Error('Não foi possível determinar o ID do plano. Use um PDF, TXT ou XLSX com o identificador PP ou PC.');
+  if (uniqueIds.length > 1) throw new Error(`IDs de plano conflitantes encontrados: ${uniqueIds.join(', ')}.`);
+  if (uniqueTypes.length > 1) throw new Error(`Tipos de plano conflitantes encontrados: ${uniqueTypes.join(', ')}.`);
+  state.planType = uniqueTypes[0] || null;
+  return uniqueIds[0];
+}
+const originalDetectType = detectType;
+resolveId = resolveIdStrict;
+detectType = (files, rows) => state.planType || originalDetectType(files, rows);
+function prepareGeneration(event) {
+  $('progress-panel').hidden = false; $('result-card').hidden = true; state.output = null; state.planType = null;
+  try { validateBundleSelection(); } catch (error) { event.preventDefault(); event.stopImmediatePropagation(); generate.disabled = false; fail(error.message); }
+}
 renderFiles();
-$('generate-button').addEventListener('click', () => { $('progress-panel').hidden = false; }, { capture: true });
+$('generate-button').addEventListener('click', prepareGeneration, { capture: true });
+input.addEventListener('change', () => { $('result-card').hidden = true; state.output = null; });
+fileList.addEventListener('click', () => { $('result-card').hidden = true; state.output = null; });
