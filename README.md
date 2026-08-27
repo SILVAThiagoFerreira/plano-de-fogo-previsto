@@ -13,3 +13,7 @@ O processamento é feito no navegador. Os arquivos nunca são enviados para um b
 ## Publicação
 
 O conteúdo da raiz é compatível com GitHub Pages e não exige build. Dependências de leitura CSV, XLSX e PDF são carregadas de CDNs públicas com versões fixadas.
+
+## Planilhas modelo
+
+A página disponibiliza dois arquivos para download direto em `assets/modelos/`: o modelo de produção e o modelo de planos secundários para blocos sem furos. Os arquivos são cópias dos modelos fornecidos para este projeto e não são alterados pelo processamento no navegador.
