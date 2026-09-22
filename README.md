@@ -16,4 +16,9 @@ O conteúdo da raiz é compatível com GitHub Pages e não exige build. Dependê
 
 ## Planilhas modelo
 
-A página disponibiliza dois arquivos para download direto em `assets/modelos/`: o modelo de produção e o modelo de planos secundários para blocos sem furos. Os arquivos são cópias dos modelos fornecidos para este projeto e não são alterados pelo processamento no navegador.
+A página disponibiliza dois arquivos para download direto em `assets/modelos/`, preservando os nomes originais fornecidos:
+
+- `Modelo - BLOCOS - SEM FUROS` → `Plano de Fogo - Secundários - .xlsx`
+- `Plano Previsto - Produção` → `Plano de Fogo Previsto - .xlsx`
+
+Os arquivos são cópias dos modelos fornecidos para este projeto e não são alterados pelo processamento no navegador.
