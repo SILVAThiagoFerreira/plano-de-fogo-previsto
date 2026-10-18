@@ -6,33 +6,17 @@
     <meta name="description" content="Gerador online de Plano de Fogo Previsto em Excel." />
     <title>PLANO DE FOGO PREVISTO</title>
     <link rel="icon" type="image/png" href="assets/openblast-logo.png" />
-    <link rel="stylesheet" href="styles.css?v=2" />
-    <link rel="stylesheet" href="ui-overrides.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="OpenBlast - início"><span class="brand-mark">◉</span><span>Open<span>Blast</span></span></a>
-      <div class="topbar-title">Plano de Fogo Previsto</div>
-      <div class="topbar-status"><i aria-label="Online"></i></div>
-    </header>
+    <header class="topbar"><span class="brand">Open<span>Blast</span></span></header>
 
     <main class="shell">
-      <section class="intro">
-        <div>
-          <p class="eyebrow">ONLINE</p>
-          <h1>Gerar Plano de Fogo <em>Previsto</em> · .XLSX</h1>
-        </div>
-      </section>
+      <section class="intro"><h1>Plano de Fogo Previsto</h1><p>Gere a planilha Excel a partir do CSV de perfuração.</p></section>
 
-      <section class="models-card" aria-labelledby="models-title">
-        <div class="models-heading">
-          <div>
-            <p class="eyebrow">ARQUIVOS DE APOIO</p>
-            <h2 id="models-title">Baixe uma planilha modelo</h2>
-            <p>Escolha o formato que mais se aproxima do seu plano e use o arquivo como ponto de partida.</p>
-          </div>
-          <span class="models-icon" aria-hidden="true">↓</span>
-        </div>
+      <section class="section" aria-labelledby="models-title">
+        <p class="eyebrow">Arquivos de apoio</p>
+        <h2 id="models-title">Planilhas modelo</h2>
         <div class="model-options">
           <a class="model-option" href="assets/modelos/Plano%20de%20Fogo%20-%20Secund%C3%A1rios%20-%20.xlsx" download="Plano de Fogo - Secundários - .xlsx">
             <span class="model-file-icon" aria-hidden="true">XLSX</span>
@@ -47,11 +31,11 @@
         </div>
       </section>
 
-      <section class="workspace-card" aria-labelledby="upload-title">
+      <section class="section" aria-labelledby="upload-title">
         <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-describedby="upload-hint">
           <input id="file-input" type="file" multiple accept=".csv,.xlsx,.xls,.pdf,.txt" hidden />
           <div class="upload-icon">↑</div>
-          <h2 id="upload-title">Anexe os arquivos de entrada</h2>
+          <h2 id="upload-title">Arquivos de entrada</h2>
           <p id="upload-hint">Arraste aqui ou clique para selecionar · CSV, XLSX, XLS, PDF e TXT</p>
         </div>
         <div id="file-list" class="file-list" aria-live="polite"><span class="empty-files">Nenhum arquivo selecionado</span></div>
@@ -64,7 +48,7 @@
       </section>
 
       <section id="result-card" class="result-card" hidden>
-        <div class="result-heading"><div><p class="eyebrow">EXPORTAÇÃO CONCLUÍDA</p><h2>Plano pronto para baixar</h2></div><span class="check">✓</span></div>
+        <div class="result-heading"><div><p class="eyebrow">EXPORTAÇÃO CONCLUÍDA</p><h2>Plano pronto</h2></div><span class="check">✓</span></div>
         <div class="metrics">
           <div><span>Plano</span><strong id="metric-plan">—</strong></div>
           <div><span>Tipo</span><strong id="metric-type">—</strong></div>
@@ -74,14 +58,9 @@
         <div class="result-actions"><button id="download-button" class="download-button">Baixar plano previsto (.xlsx) <span>→</span></button><span id="output-name" class="output-name"></span></div>
       </section>
 
-      <section class="process-grid" aria-label="Como funciona">
-        <article><span class="step">01</span><h3>Arquivos necessários</h3><p>Um CSV de perfuração e o XLSX auxiliar com os diâmetros. PDF e TXT podem informar o ID do plano.</p></article>
-        <article><span class="step">02</span><h3>Validação automática</h3><p>Colunas, plano, tipo, números e estrutura de saída são conferidos antes da exportação.</p></article>
-        <article><span class="step">03</span><h3>Excel rastreável</h3><p>O arquivo mantém a aba <code>DADOS_FUROS</code>, a ordem das colunas e o padrão numérico do projeto.</p></article>
-      </section>
-    </main>
+      </main>
 
-    <footer><span>OpenBlast · PLANO DE FOGO PREVISTO</span><span>v2.0 · execução local</span></footer>
+    <footer><span>OpenBlast · Plano de Fogo Previsto</span></footer>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
     <script src="app.js?v=2" type="module"></script>
