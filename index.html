@@ -36,7 +36,7 @@
           <input id="file-input" type="file" multiple accept=".csv,.xlsx,.xls,.pdf,.txt" hidden />
           <div class="upload-icon">↑</div>
           <h2 id="upload-title">Arquivos de entrada</h2>
-          <p id="upload-hint">Arraste aqui ou clique para selecionar · CSV, XLSX, XLS, PDF e TXT</p>
+          <p id="upload-hint">Arraste aqui ou clique para selecionar · CSV de perfuração (e CSV previsto opcional), XLSX, XLS, PDF e TXT</p>
         </div>
         <div id="file-list" class="file-list" aria-live="polite"><span class="empty-files">Nenhum arquivo selecionado</span></div>
         <div id="progress-panel" class="progress-panel" aria-live="polite" hidden>
@@ -55,6 +55,7 @@
           <div><span>Total de furos</span><strong id="metric-holes">—</strong></div>
           <div><span>Carga prevista</span><strong id="metric-charge">—</strong></div>
         </div>
+        <div id="notice-box" class="output-name" style="margin-top:12px;border-left:2px solid var(--line);padding-left:10px" hidden></div>
         <div class="result-actions"><button id="download-button" class="download-button">Baixar plano previsto (.xlsx) <span>→</span></button><span id="output-name" class="output-name"></span></div>
       </section>
 
@@ -63,6 +64,6 @@
     <footer><span>OpenBlast · Plano de Fogo Previsto</span></footer>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
-    <script src="app.js?v=3" type="module"></script>
+    <script src="app.js?v=4" type="module"></script>
   </body>
 </html>
